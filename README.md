@@ -1,8 +1,31 @@
 # LPC_MOT
 This is the code for the paper "Learning a Proposal Classifier for Multiple Target tracking"
 
-<<<<<<< HEAD
-## Requirements
-- Python = 3.7.7
-- PyTorch = 1.4.0+cu100
-Notice: We also provide the [docker image](https://pan.baidu.com/s/1IF7JqycSzP6iqbR9fkduJA) (password: lq3v) to run our codes.
+## Setup
+1. Clone the enter this repository:
+```
+git clone https://github.com/daip13/LPC_MOT.git
+```
+
+2. Create a docker image for this project: 
+    - Python = 3.7.7
+    - PyTorch = 1.4.0+cu100
+    - Notice: We also provide the [docker image](https://pan.baidu.com/s/1IF7JqycSzP6iqbR9fkduJA) (password: lq3v) to run our codes.
+
+3. Copy the LPC_MOT repository to the root path of the docker image.
+
+4. Download our GCN and reid network.
+    - The models can also be downloaded [here](https://pan.baidu.com/s/1IF7JqycSzP6iqbR9fkduJA) (password: lq3v).
+    - You should place the models to path /root/LPC_MOT/models/
+
+5. (OPTIONAL) For convenience, we provide the detections files with extracted reid features. You can also download them [here](https://pan.baidu.com/s/1IF7JqycSzP6iqbR9fkduJA) (password: lq3v).
+    - You should place the downloaded data to /root/LPC_MOT/dataset/
+
+7. Running.
+```
+cd /root/LPC_MOT/learnable_proposal_classifier/scripts/
+bash main.sh ../../dataset/MOT17/results_reid_with_traindata/detection/ ../../models/dsgcn_model_iter_30.pth /tmp/LPC_MHT/ ../../dataset/MOT17/results_reid_with_traindata/tracking_output/ ../../dataset/MOT17/train/
+```
+
+## GCN Model Training
+The scripts for GCN model training will be here soon.
