@@ -1,6 +1,7 @@
 # LPC_MOT
 This is the code for the paper "Learning a Proposal Classifier for Multiple Target tracking"
 
+<<<<<<< HEAD
 ## Requirements
 - Python = 3.7.7
 - PyTorch = 1.4.0+cu100
