@@ -17,6 +17,7 @@ git clone https://github.com/daip13/LPC_MOT.git
 4. Download our GCN and reid network.
     - The models can also be downloaded [here](https://pan.baidu.com/s/1IF7JqycSzP6iqbR9fkduJA) (password: lq3v).
     - You should place the models to path /root/LPC_MOT/models/
+    - Notice: we adopt the [fast-reid](https://github.com/JDAI-CV/fast-reid.git) as our reid model. However, the authors have updated their codes. In order to get the same reid features with our trained model, we also present the codes that we used here.
 
 5. (OPTIONAL) For convenience, we provide the detections files with extracted reid features. You can also download them [here](https://pan.baidu.com/s/1IF7JqycSzP6iqbR9fkduJA) (password: lq3v).
     - You should place the downloaded data to /root/LPC_MOT/dataset/
