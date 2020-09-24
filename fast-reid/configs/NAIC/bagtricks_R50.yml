@@ -1,0 +1,10 @@
+_BASE_: "../Base-bagtricks.yml"
+
+MODEL:
+  WEIGHTS: "./model/Market1501/market_bot_R50.pth"
+
+DATASETS:
+  NAMES: ("NAIC",)
+  TESTS: ("NAIC",)
+
+OUTPUT_DIR: "logs/naic/bagtricks_R50"

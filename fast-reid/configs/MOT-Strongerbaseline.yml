@@ -1,8 +1,9 @@
 _BASE_: "Base-bagtricks.yml"
 
 MODEL:
-    WEIGHTS: "/root/LPC_MOT/models/reid_model_with_MOT17_traindata.pth"
+    #WEIGHTS: "/root/LPC_MOT/models/reid_model_with_MOT17_traindata.pth"
     #WEIGHTS: "/root/LPC_MOT/models/reid_model_wo_MOT17_traindata.pth"
+    WEIGHTS: "/root/LPC_MOT/fast-reid/logs/MOT20/model_final.pth"
     FREEZE_LAYERS: ["backbone"]
     DEVICE: "cuda:3"
 

@@ -1,0 +1,51 @@
+_BASE_: "../Base-Strongerbaseline.yml"
+
+MODEL:
+  WEIGHTS: "./logs/naic/sbs_R101_ibn/model_batchsize_128_all_final.pth"
+  BACKBONE:
+    DEPTH: "101x"
+    WITH_IBN: True
+    PRETRAIN: False
+    PRETRAIN_PATH: ""
+    NORM: "syncBN"
+  HEADS:
+    NORM: "syncBN"
+  PIXEL_STD:
+  - 58.395
+  - -57.120000000000005
+  - -57.375
+
+DATASETS:
+  NAMES: ("NAIC",)
+  TESTS: ("NAIC",)
+#   SPLIT_FILE: "NAIC_train_val.txt"
+  
+DATALOADER:
+  NUM_INSTANCE: 4
+  
+INPUT:
+  CJ:
+    ENABLED: True
+    PROB: 0.2
+    BRIGHTNESS: 0.15
+    CONTRAST: 0.15
+    SATURATION: 0.1
+    HUE: 0.1
+  RPT:
+    ENABLED: True
+    PROB: 0.2
+  
+SOLVER:
+  IMS_PER_BATCH: 128
+  
+TEST:
+  ENABLED: False
+  RERANK:
+    ENABLED: True
+    K1: 14
+    K2: 4
+    LAMBDA: 0.4
+  JSON_FILE: "sbs_R101-ibn_all_k1_14_k2_4_lambda_0.4_result.json"
+  
+
+OUTPUT_DIR: "logs/naic/sbs_R101-ibn"
