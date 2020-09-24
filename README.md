@@ -1,5 +1,6 @@
 # LPC_MOT
 This is the code for the paper "Learning a Proposal Classifier for Multiple Target tracking"
+![image](https://github.com/daip13/LPC_MOT/blob/master/images/framework.png)
 
 ## Setup
 1. Clone the enter this repository:
