@@ -22,6 +22,7 @@ git clone https://github.com/daip13/LPC_MOT.git
 
 5. (OPTIONAL) For convenience, we provide the detections files with extracted reid features. You can also download them [here](https://pan.baidu.com/s/1IF7JqycSzP6iqbR9fkduJA) (password: lq3v).
     - You should place the downloaded data to /root/LPC_MOT/dataset/
+    - If you donot want to download the data, you can also generate it with the script [ReID_feature_extraction.py](https://github.com/daip13/LPC_MOT/blob/master/learnable_proposal_classifier/scripts/ReID_feature_extraction.py)
 
 7. Running.
 ```
