@@ -1,0 +1,11 @@
+/* Proto definition for detection results. */
+
+syntax = "proto3";
+
+import "common.proto";
+
+message Detections {
+    repeated TrackingDetection tracked_detections = 1;
+    DetectionType detection_type = 2;
+    string appearance_model_url = 3;
+}

@@ -1,0 +1,56 @@
+{
+  "affinity": [
+    {
+      "threshold": 250, 
+      "type": "XDistAffinity", 
+      "weight": 0.001
+    }, 
+    {
+      "threshold": 250, 
+      "type": "YDistAffinity", 
+      "weight": 0.001
+    }, 
+    {
+      "threshold": 15, 
+      "type": "NFrameDistance"
+    }, 
+    {
+      "base": {
+        "list": [
+          {
+            "description": "very sure motion matches, but put some more weights", 
+            "threshold": 0.01, 
+            "type": "IoUAffinity", 
+            "weight": 2
+          }, 
+          {
+            "eval_type": "sv_tracking", 
+            "score_idx": 0, 
+            "score_key": "FID_score_mapping", 
+            "target_at_threshold": 1.0, 
+            "threshold": 0.50, 
+            "type": "SingleViewAppearance", 
+            "weight": 2.0
+          }
+        ], 
+        "type": "SumAffinities"
+      }, 
+      "sim_threshold": 0.01,
+      "threshold": 1.8, 
+      "type": "NoneCompeteDirectedAffinity"
+    }
+  ], 
+  "algorithm": {
+    "keep_alive": 3,
+    "relative_threshold": 0.0, 
+    "type": "OnlineHungarian", 
+    "verbose": 1
+  }, 
+  "detection_confidence": 0.0, 
+  "do_eval": 0, 
+  "filter_border": false, 
+  "format": "one-step", 
+  "minimum_length": 0, 
+  "optimized_for": "/ssd/projects/CTF/beijing/xhm/eid_jobs/CTF_combined_0.0.2/npair_may_to_aug_ctf_all_stores_finetune_full_year_iter_44000.caffemodel", 
+  "output_id_type": "single_view"
+}

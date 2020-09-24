@@ -1,0 +1,29 @@
+/* Proto definition for common components. */
+
+syntax = "proto3";
+
+enum DetectionType {
+    DETECTION_TYPE_SDP = 0;
+    DETECTION_TYPE_DPM = 1;
+    DETECTION_TYPE_FRCNN = 2;
+}
+
+message TrackingDetection {
+    uint32 frame_index = 1;
+    uint32 detection_id = 2;
+    float detection_score = 3;
+    int32 box_x = 4;
+    int32 box_y = 5;
+    int32 box_width = 6;
+    int32 box_height = 7;
+    AppearanceFeatures features = 8;
+}
+
+message AppearanceFeatures {
+    repeated Appearance features = 1;
+    uint32 dim = 2;
+}
+
+message Appearance {
+    repeated float feats = 1;
+}

@@ -1,0 +1,20 @@
+/* Proto definition for tracking results. */
+
+syntax = "proto3";
+
+import "common.proto";
+
+message Tracks {
+    repeated Track tracks = 1;
+    DetectionType detection_type = 2;
+    string appearance_model_url = 3;
+}
+
+
+message Track {
+  float confidence = 1;
+  string track_id = 2;
+  AppearanceFeatures features = 3;
+  repeated TrackingDetection tracked_detections = 4;
+  uint32 tracklet_id = 5;
+}
