@@ -1,0 +1,78 @@
+_BASE_: "Base-bagtricks.yml"
+
+MODEL:
+    WEIGHTS: "/root/LPC_MOT/models/reid_model_with_MOT17_traindata.pth"
+    #WEIGHTS: "/root/LPC_MOT/models/reid_model_wo_MOT17_traindata.pth"
+    FREEZE_LAYERS: ["backbone"]
+    DEVICE: "cuda:3"
+
+    BACKBONE:
+        WITH_NL: True
+        WITH_IBN: True
+        NORM: "syncBN"
+        PRETRAIN: False
+        WITH_SE: False
+
+    HEADS:
+        NECK_FEAT: "after"
+        POOL_LAYER: "gempool"
+        CLS_LAYER: "circleSoftmax"
+        # SCALE: 64
+        MARGIN: 0.35
+
+    # HEADS:
+    #     NAME: "ReductionHead"
+    #     IN_FEAT: 2048
+    #     REDUCTION_DIM: 256
+    #     POOL_LAYER: "gempool"
+    #     CLS_LAYER: "circleSoftmax"
+    #     MARGIN: 0.15
+    #     SCALE: 128
+    LOSSES:
+        NAME: ("CrossEntropyLoss", "TripletLoss",)
+        CE:
+            EPSILON: 0.1
+            SCALE: 1.0
+        TRI:
+            MARGIN: 0.0
+            HARD_MINING: True
+            NORM_FEAT: False
+            SCALE: 1.0
+DATASETS:
+    ROOT: "/ssd/zphe/data/reid/MOT17_reid"
+    NAMES: ("MOT20",)
+    TESTS: ("MOT17",)
+
+INPUT:
+    SIZE_TRAIN: [384, 128]
+    SIZE_TEST: [384, 128]
+    DO_AUTOAUG: True
+
+DATALOADER:
+    NUM_INSTANCE: 16
+
+SOLVER:
+    OPT: "Adam"
+    MAX_ITER: 120
+    BASE_LR: 0.00035
+    BIAS_LR_FACTOR: 1.
+    WEIGHT_DECAY: 0.0005
+    WEIGHT_DECAY_BIAS: 0.0005
+    IMS_PER_BATCH: 128
+
+    SCHED: "WarmupCosineAnnealingLR"
+    DELAY_ITERS: 30
+    ETA_MIN_LR: 0.00000077
+
+    WARMUP_FACTOR: 0.01
+    WARMUP_ITERS: 10
+    FREEZE_ITERS: 10
+    CHECKPOINT_PERIOD: 2
+TEST:
+    EVAL_PERIOD: 2
+    EVAL_INIT: True
+    IMS_PER_BATCH: 128
+    ROC_ENABLED: True
+
+CUDNN_BENCHMARK: True
+OUTPUT_DIR: "./logs/MOT20"

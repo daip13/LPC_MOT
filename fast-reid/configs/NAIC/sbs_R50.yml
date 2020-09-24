@@ -1,0 +1,48 @@
+_BASE_: "../Base-Strongerbaseline.yml"
+
+MODEL:
+  # FREEZE_LAYERS: [""]
+  WEIGHTS: "logs/naic/sbs_R50_rc/model_final.pth"
+  BACKBONE:
+    PRETRAIN: False
+    PRETRAIN_PATH: ""
+    CD: False
+    NORM: "syncBN"
+  
+  HEADS:
+    NORM: "syncBN"
+  #   CLS_LAYER: ""
+
+  # LOSSES:
+  #   NAME: ("NpairLoss", )
+
+DATASETS:
+  NAMES: ("NAIC",)
+  TESTS: ("NAIC",)
+  # EXTRA_DATA:
+  #   ROOTS: ["datasets/NAIC2019/1", "datasets/NAIC2019/2"]
+  #   LISTS: ["train_list.txt", "train_list.txt"]
+
+DATALOADER:
+  NUM_INSTANCE: 4
+
+INPUT:
+  SIZE_TRAIN: [256, 128]
+  SIZE_TEST: [256, 128]
+  RC:
+    ENABLED: True
+
+SOLVER:
+  MAX_ITER: 80
+  IMS_PER_BATCH: 256
+#   BASE_LR: 0.0001
+
+TEST:
+  ENABLED: True
+  EVAL_INIT: False
+  EVAL_PERIOD: 2
+  RERANK:
+    ENABLED: True
+  JSON_FILE: 'logs/naic/sbs_R50_rc/sbs_R50_rc.json'
+
+OUTPUT_DIR: "logs/naic/sbs_R50_rc"

@@ -1,0 +1,64 @@
+_BASE_: "../../../configs/Base-bagtricks.yml"
+
+SOLVER:
+  IMS_PER_BATCH: 64
+
+MODEL_TEACHER:
+  META_ARCHITECTURE: "Baseline"
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+    NORM: "BN"
+    DEPTH: "50x"
+    LAST_STRIDE: 1
+    WITH_IBN: False
+    PRETRAIN: False
+
+  HEADS:
+    NAME: "ReductionHead"
+    IN_FEAT: 2048
+    REDUCTION_DIM: 256
+    NORM: "BN"
+    POOL_LAYER: "avgpool"
+    NECK_FEAT: "before"
+    CLS_LAYER: ""
+
+MODEL:
+  META_ARCHITECTURE: "Baseline"
+  WEIGHTS: "./logs/market1501/bot50-bot18-l2/model_final.pth"
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+    NORM: "BN"
+    DEPTH: "18x"
+    LAST_STRIDE: 1
+    WITH_IBN: False
+    PRETRAIN: True
+    PRETRAIN_PATH: "./model/ImageNet/resnet18-5c106cde.pth"
+
+  HEADS:
+    NAME: "ReductionHead"
+    IN_FEAT: 512
+    NORM: "BN"
+    REDUCTION_DIM: 256
+    POOL_LAYER: "avgpool"
+    NECK_FEAT: "before"
+    CLS_LAYER: ""
+
+  STUDENT_WEIGHTS: ""
+  TEACHER_WEIGHTS: "./logs/market1501/bagtricks_R50_ReduceHead/teacher.pth"
+DATASETS:
+  NAMES: ("Market1501",)
+  TESTS: ("Market1501",)
+
+DATALOADER:
+  NUM_WORKERS: 8
+  NUM_INSTANCE: 8
+
+SOLVER:
+    BASE_LR: 3.5e-5
+    IMS_PER_BATCH: 128
+    MAX_ITER: 240
+    STEPS: [80, 180]
+
+OUTPUT_DIR: "logs/market1501/bot50-bot18-l2-fdm"

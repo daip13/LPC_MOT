@@ -1,0 +1,23 @@
+_BASE_: "../Base-Strongerbaseline.yml"
+
+MODEL:
+  WEIGHTS: "./model/Market1501/market_sbs_R50.pth"
+  BACKBONE:
+      PRETRAIN: False
+      PRETRAIN_PATH: ""
+      CD: True
+      # NORM: "syncBN"
+  HEADS:
+      NAME: "ReductionHead"
+      REDUCTION_DIM: 256
+      # NORM: "syncBN"
+DATASETS:
+  NAMES: ("Market1501",)
+  TESTS: ("Market1501",)
+
+# SOLVER:
+#   MAX_ITER: 200
+#   STEPS: [80, 160]
+#   BASE_LR: 0.000035
+
+OUTPUT_DIR: "logs/market1501/sbs_R50_ReduceHead_CD8"

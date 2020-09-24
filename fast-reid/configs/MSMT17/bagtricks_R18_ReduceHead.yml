@@ -1,0 +1,24 @@
+_BASE_: "../Base-bagtricks.yml"
+
+MODEL:
+    WEIGHTS: ""
+    BACKBONE:
+        PRETRAIN: True
+        PRETRAIN_PATH: "./model/ImageNet/resnet18-5c106cde.pth"
+        # NORM: "syncBN"
+        DEPTH: "18x"
+    HEADS:
+        IN_FEAT: 512
+        NAME: "ReductionHead"
+        REDUCTION_DIM: 256
+        # NORM: "syncBN"
+DATASETS:
+    NAMES: ("MSMT17",)
+    TESTS: ("MSMT17",)
+
+# SOLVER:
+#     MAX_ITER: 200
+#     STEPS: [80, 160]
+#     BASE_LR: 0.0035
+
+OUTPUT_DIR: "logs/msmt17/bagtricks_R50_ReduceHead"

@@ -1,0 +1,59 @@
+_BASE_: "../../../configs/Base-bagtricks.yml"
+
+SOLVER:
+  IMS_PER_BATCH: 64
+
+MODEL_TEACHER:
+  META_ARCHITECTURE: "Baseline"
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+    NORM: "BN"
+    DEPTH: "50x"
+    LAST_STRIDE: 1
+    WITH_IBN: False
+    PRETRAIN: False
+
+  HEADS:
+    NAME: "ReductionHead"
+    IN_FEAT: 2048
+    REDUCTION_DIM: 256
+    NORM: "BN"
+    POOL_LAYER: "avgpool"
+    NECK_FEAT: "before"
+    CLS_LAYER: ""
+
+MODEL:
+  META_ARCHITECTURE: "Baseline"
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+    NORM: "BN"
+    DEPTH: "18x"
+    LAST_STRIDE: 1
+    WITH_IBN: False
+    PRETRAIN: True
+    PRETRAIN_PATH: "./model/ImageNet/resnet18-5c106cde.pth"
+
+  HEADS:
+    NAME: "ReductionHead"
+    IN_FEAT: 512
+    NORM: "BN"
+    REDUCTION_DIM: 256
+    POOL_LAYER: "avgpool"
+    NECK_FEAT: "before"
+    CLS_LAYER: ""
+
+  STUDENT_WEIGHTS: ""
+  TEACHER_WEIGHTS: "./logs/msmt17/bagtricks_R50_ReduceHead/teacher.pth"
+DATASETS:
+  NAMES: ("MSMT17",)
+  TESTS: ("MSMT17",)
+
+DATALOADER:
+  NUM_WORKERS: 8
+
+SOLVER:
+    BASE_LR: 0.00035
+
+OUTPUT_DIR: "logs/msmt17/bot50-bot18-fdm"

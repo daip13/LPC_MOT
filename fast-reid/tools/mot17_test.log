@@ -1,0 +1,9 @@
+2020-09-03 19:01:19,591 - root - INFO - start processing ch01005_20200609090000.mp4.cut.mp4
+2020-09-03 19:01:51,146 - root - INFO - processing ch01005_20200609090000.mp4.cut.mp4 done.
+2020-09-03 19:01:51,352 - root - INFO - start processing ch01001_20200609090000.mp4.cut.mp4
+2020-09-03 19:01:53,871 - root - INFO - processing ch01001_20200609090000.mp4.cut.mp4 done.
+2020-09-03 19:01:53,883 - root - INFO - start processing ch01003_20200609090000.mp4.cut.mp4
+2020-09-03 19:02:09,003 - root - INFO - processing ch01003_20200609090000.mp4.cut.mp4 done.
+2020-09-03 19:02:09,112 - root - INFO - start processing ch01002_20200609090000.mp4.cut.mp4
+2020-09-03 19:02:25,516 - root - INFO - processing ch01002_20200609090000.mp4.cut.mp4 done.
+2020-09-03 19:02:25,556 - root - INFO - All done, total collected 2104 pids, 4459 imgs

@@ -1,0 +1,66 @@
+_BASE_: "../../../configs/Base-Strongerbaseline.yml"
+
+SOLVER:
+  IMS_PER_BATCH: 64
+
+MODEL_TEACHER:
+  META_ARCHITECTURE: "Baseline"
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+    NORM: "BN"
+    DEPTH: "50x"
+    LAST_STRIDE: 1
+    WITH_IBN: False
+    WITH_NL: True
+    PRETRAIN: False
+
+  HEADS:
+    NAME: "ReductionHead"
+    IN_FEAT: 2048
+    REDUCTION_DIM: 256
+    NORM: "BN"
+    POOL_LAYER: "gempool"
+    NECK_FEAT: "after"
+    CLS_LAYER: ""
+
+MODEL:
+  META_ARCHITECTURE: "Baseline"
+  WEIGHTS: "logs/msmt17/bot50-bot18-l2/model_final.pth"
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+    NORM: "BN"
+    DEPTH: "18x"
+    LAST_STRIDE: 1
+    WITH_IBN: False
+    WITH_NL: True
+    PRETRAIN: True
+    PRETRAIN_PATH: "./model/ImageNet/resnet18-5c106cde.pth"
+
+  HEADS:
+    NAME: "ReductionHead"
+    IN_FEAT: 512
+    NORM: "BN"
+    REDUCTION_DIM: 256
+    POOL_LAYER: "gempool"
+    NECK_FEAT: "after"
+    CLS_LAYER: ""
+
+  STUDENT_WEIGHTS: ""
+  TEACHER_WEIGHTS: "./logs/msmt17/sbs_R50_ReductionHead/teacher.pth"
+DATASETS:
+  NAMES: ("MSMT17",)
+  TESTS: ("MSMT17",)
+
+DATALOADER:
+  NUM_WORKERS: 8
+  NUM_INSTANCE: 8
+
+SOLVER:
+    BASE_LR: 0.000035
+    # IMS_PER_BATCH: 128
+    # MAX_ITER: 240
+    # STEPS: [80, 180]
+
+OUTPUT_DIR: "logs/msmt17/bot50-bot18-fdm"

@@ -1,0 +1,23 @@
+_BASE_: "../Base-Strongerbaseline.yml"
+
+MODEL:
+  WEIGHTS: "./model/MSMT17/msmt_sbs_R50.pth"
+  BACKBONE:
+      PRETRAIN: False
+      PRETRAIN_PATH: ""
+      CD: True
+      # NORM: "syncBN"
+  HEADS:
+      NAME: "ReductionHead"
+      REDUCTION_DIM: 256
+      # NORM: "syncBN"
+DATASETS:
+  NAMES: ("MSMT17",)
+  TESTS: ("MSMT17",)
+
+# SOLVER:
+#     MAX_ITER: 200
+#     STEPS: [80, 160]
+#     BASE_LR: 3.5e-5
+
+OUTPUT_DIR: "logs/msmt17/sbs_R50_ReductionHead_CD8"

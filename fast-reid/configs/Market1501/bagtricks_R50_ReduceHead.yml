@@ -1,0 +1,22 @@
+_BASE_: "../Base-bagtricks.yml"
+
+MODEL:
+    WEIGHTS: "./model/Market1501/market_bot_R50.pth"
+    BACKBONE:
+        PRETRAIN: False
+        PRETRAIN_PATH: ""
+        # NORM: "syncBN"
+    HEADS:
+        NAME: "ReductionHead"
+        REDUCTION_DIM: 256
+        # NORM: "syncBN"
+DATASETS:
+  NAMES: ("Market1501",)
+  TESTS: ("Market1501",)
+
+# SOLVER:
+#   MAX_ITER: 200
+#   STEPS: [80, 160]
+#   BASE_LR: 0.000035
+
+OUTPUT_DIR: "logs/market1501/bagtricks_R50_ReduceHead_CD"

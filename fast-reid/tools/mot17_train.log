@@ -1,0 +1,15 @@
+2020-09-02 19:15:59,171 - root - INFO - start processing ch01710_20200616090000.mp4.cut.mp4
+2020-09-02 19:16:02,357 - root - INFO - processing ch01710_20200616090000.mp4.cut.mp4 done.
+2020-09-02 19:16:02,377 - root - INFO - start processing ch01702_20200616090000.mp4.cut.mp4
+2020-09-02 19:16:05,374 - root - INFO - processing ch01702_20200616090000.mp4.cut.mp4 done.
+2020-09-02 19:16:05,388 - root - INFO - start processing ch01704_20200616090000.mp4.cut.mp4
+2020-09-02 19:16:09,996 - root - INFO - processing ch01704_20200616090000.mp4.cut.mp4 done.
+2020-09-02 19:16:10,017 - root - INFO - start processing ch01705_20200616090000.mp4.cut.mp4
+2020-09-02 19:16:11,127 - root - INFO - processing ch01705_20200616090000.mp4.cut.mp4 done.
+2020-09-02 19:16:11,133 - root - INFO - start processing ch01709_20200616090000.mp4.cut.mp4
+2020-09-02 19:16:13,985 - root - INFO - processing ch01709_20200616090000.mp4.cut.mp4 done.
+2020-09-02 19:16:14,006 - root - INFO - start processing ch01713_20200616090000.mp4.cut.mp4
+2020-09-02 19:16:17,115 - root - INFO - processing ch01713_20200616090000.mp4.cut.mp4 done.
+2020-09-02 19:16:17,140 - root - INFO - start processing ch01711_20200616090000.mp4.cut.mp4
+2020-09-02 19:16:21,891 - root - INFO - processing ch01711_20200616090000.mp4.cut.mp4 done.
+2020-09-02 19:16:21,902 - root - INFO - All done, total collected 472 pids, 2389 imgs

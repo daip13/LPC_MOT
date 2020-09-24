@@ -62,6 +62,9 @@ def get_parser():
         "--dataset_dir", default='/root/LPC_MOT/dataset/MOT17/'
     )
     parser.add_argument(
+        "--input_video_dir", default='/root/LPC_MOT/dataset/MOT17/videos/'
+    )
+    parser.add_argument(
         "--output_dir",
         default='/root/LPC_MOT/dataset/MOT17/detection_reid_with_traindata/',
         help='path to save features'
@@ -88,6 +91,7 @@ if __name__ == '__main__':
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
     sequences = []
+    videos = glob.glob(osp.join(args.input_video_dir, '*.mp4'))
     for phase in phases:
         if phase == 'train':
             for sequence in train_sequences:
@@ -98,32 +102,45 @@ if __name__ == '__main__':
                 for detector in detectors:
                     sequences.append(os.path.join(args.dataset_dir, phase, sequence + '-' + detector))
     cfg = setup_cfg(args)
+    demo = FeatureExtractionDemo(cfg, parallel=args.parallel)
     for sequence in sequences:
         print('processing ' + os.path.basename(sequence))
         det_num = 1
         save_results = []
         det_file = os.path.join(sequence, 'det', 'tracktor_prepr_det.txt')
         det_res = load_det_txt(det_file)
-        for frame in sorted(det_res.keys()):
-            image = glob.glob(os.path.join(sequence, 'img1', format(frame, '06d') + '.jpg'))
-            image = image[0]
-            demo = FeatureExtractionDemo(cfg, parallel=args.parallel)
-            imagename = osp.basename(image)
-            print('processing ' + imagename)
-            frame_image = cv2.imread(image)
-            bboxes = det_res[frame]
-            for bbox in bboxes:
-                box = bbox[0]
-                box_i = [int(x)for x in box]
-                det_score = bbox[1]
-                x,y,w,h = box_i
-                # skip the case that the box is not in the image
-                if x + w < 0 or x > frame_image.shape[1] or y > frame_image.shape[0] or y + h < 0:
-                    continue
-                img = frame_image[max(y, 0):min(y+h, frame_image.shape[0]), max(x, 0):min(x+w, frame_image.shape[1]):, ]
-                feat = demo.run_on_image(img)[0].numpy().tolist()
-                save_results.append([det_num, frame, box, det_score, feat])
-                det_num += 1
+        videoname = os.path.basename(sequence).split('-')[0] + '-' + os.path.basename(sequence).split('-')[1]
+        video = glob.glob(os.path.join(args.input_video_dir, videoname + "*.mp4"))[0]
+        vidcap = cv2.VideoCapture(video)
+        ret = True
+        frames = list(det_res.keys())
+        frames = set(sorted([int(x) for x in frames]))
+        max_frame = max(list(frames))
+        frame_id = 1
+        ret = True
+        if vidcap.isOpened():
+            while ret:
+                ret, frame = vidcap.read()
+                if frame_id in frames:
+                    print('processing frame' + str(frame_id))
+                    bboxes = det_res[frame_id]
+                    for bbox in bboxes:
+                        box = bbox[0]
+                        det_score = bbox[1]
+                        box_i = [int(x) for x in box]
+                        x,y,w,h = box_i
+                        # skip the case that the box is not in the image
+                        if x + w < 0 or x > frame.shape[1] or y > frame.shape[0] or y + h < 0:
+                            continue
+                        img = frame[max(y, 0):min(y+h, frame.shape[0]), max(x, 0):min(x+w, frame.shape[1]):, ]
+                        img = frame[y:y+h, x:x+w:, ]
+                        # img = img.to(device)
+                        feat = demo.run_on_image(img)[0].numpy().tolist()
+                        save_results.append([det_num, frame_id, box, det_score, feat])
+                        det_num += 1
+                frame_id += 1
+                if frame_id > max_frame:
+                    break
         output_file = os.path.join(args.output_dir, os.path.basename(sequence) + '.pb')
         detections_pb = detection_results_pb2.Detections()
         for detection in save_results:

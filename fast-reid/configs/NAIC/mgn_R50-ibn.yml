@@ -1,0 +1,85 @@
+_BASE_: "../Base-MGN.yml"
+
+MODEL:
+    # WEIGHTS: "./model/NAIC/duke_mgn_R50-ibn.pth"
+    #WEIGHTS: "./model/NAIC/market_mgn_R50-ibn.pth"
+    WEIGHTS: "./model_final.pth"
+
+
+    BACKBONE:
+        WITH_IBN: True
+        PRETRAIN: False
+        PRETRAIN_PATH: ""
+        # NORM: "syncBN"
+    HEADS:
+        NECK_FEAT: "after"
+        POOL_LAYER: "gempool"
+        # CLS_LAYER: "circleSoftmax"
+        CLS_LAYER: ""
+        SCALE: 64
+        MARGIN: 0.35
+    LOSSES:
+        # NAME: ("CrossEntropyLoss", "TripletLoss",)
+        # CE:
+        #     EPSILON: 0.1
+        #     SCALE: 0.125
+    
+        # TRI:
+        #     MARGIN: 0.0
+        #     HARD_MINING: True
+        #     NORM_FEAT: False
+        #     SCALE: 0.20
+        NAME: ("NpairLoss",)
+        NPAIR:
+            L2_REG: 1e-6
+            MARGIN: 0.05
+            SCALE: 40
+            HARD_MINING: False
+
+DATASETS:
+    NAMES: ("NAIC",)
+    TESTS: ("NAIC",)
+    
+INPUT:
+    SIZE_TRAIN: [384, 128]
+    SIZE_TEST: [384, 128]
+    DO_AUTOAUG: True
+    
+DATALOADER:
+    NUM_INSTANCE: 2
+    NUM_WORKERS: 4
+    PK_SAMPLER: True
+    NAIVE_WAY: True
+    
+SOLVER:
+    OPT: "Adam"
+    MAX_ITER: 60
+    BASE_LR: 0.00035
+    BIAS_LR_FACTOR: 1.
+    WEIGHT_DECAY: 0.0005
+    WEIGHT_DECAY_BIAS: 0.0005
+    IMS_PER_BATCH: 64
+
+    SCHED: "WarmupCosineAnnealingLR"
+    DELAY_ITERS: 30
+    ETA_MIN_LR: 0.00000077
+
+    WARMUP_FACTOR: 0.01
+    WARMUP_ITERS: 5
+    FREEZE_ITERS: 5
+    CHECKPOINT_PERIOD: 2
+
+TEST:
+    ENABLED: True
+    EVAL_PERIOD: 2
+    IMS_PER_BATCH: 128
+    EVAL_INIT: True
+    # JSON_FILE: "./mgn_r50_result_new.txt"
+    JSON_FILE: ""
+    RERANK:
+       ENABLED: False
+       K1: 20
+       K2: 6
+       LAMBDA: 0.3
+CUDNN_BENCHMARK: True
+OUTPUT_DIR: "logs/NAIC/mgn_R50-ibn"
