@@ -10,66 +10,6 @@ import torch.nn.functional as F
 
 __all__ = ['dsgcn']
 
-def eval_batch_new(y, label, loss_type):
-        idx = 0
-        acc_times = 0.0
-        acc_pos_times = 0
-        acc_neg_times = 0
-        bs = len(y)
-        bs_pos = len((label==1).nonzero())
-        bs_neg = len((label==0).nonzero())
-        if loss_type != 'mse':
-            tp_mean_prob = 0
-            tp_times = 0
-            tn_mean_prob = 0
-            tn_times = 0
-            fp = 0.0
-            fn = 0.0
-            fp_iop = 0
-            for prob in y:
-                this_label = label[idx]
-                if prob.cpu() > 0.5 and this_label.cpu() == 1:
-                    acc_times += 1
-                    acc_pos_times += 1
-                    tp_times += 1
-                    tp_mean_prob += prob.cpu()
-                elif prob.cpu() < 0.5 and this_label.cpu() == 0:
-                    acc_times += 1
-                    acc_neg_times += 1
-                    tn_times += 1
-                    tn_mean_prob += prob.cpu()
-                elif this_label.cpu() == 1:
-                    fn += 1
-                elif this_label.cpu() == 0:
-                    fp += 1
-                    fp_iop += prob.cpu()
-                idx += 1
-            acc = acc_times / bs
-            if bs_pos > 0:
-                acc_pos = acc_pos_times / bs_pos
-            else:
-                acc_pos = 0
-            if bs_neg > 0:
-                acc_neg = acc_neg_times / bs_neg
-            else:
-                acc_neg = 0
-            if fp != 0:
-                fp_iop /= fp
-            else:
-                fp_iop = 0
-            fp = fp / bs
-            fn = fn / bs
-            if tp_times != 0:
-                tp_mean_prob /= tp_times
-            else:
-                tp_mean_prob = 0
-            if tn_times != 0:
-                tn_mean_prob /= tn_times
-            else:
-                tn_mean_prob = 1
-            print ('acc = ' + str(acc) + ', acc_pos = ' + str(acc_pos) + ', acc_neg = ' + str(acc_neg) +', fp = ' + str(fp) + ', fn = ' + str(fn) + ', fp_iop = ' + str(fp_iop) + ', tn_mean_prob = ' + str(tn_mean_prob) + ', tp_mean_prob = ' + str(tp_mean_prob))
-
-
 '''
 Original implementation can be referred to:
     - GCN: https://github.com/tkipf/pygcn
@@ -195,7 +135,6 @@ class GNN(nn.Module):
             loss = self.loss(x.view(len(data[-1]),-1), data[-1].long())
             return y, loss
         else:
-            eval_batch_new(y1, data[-1], 'BCE')
             return y
 
 
