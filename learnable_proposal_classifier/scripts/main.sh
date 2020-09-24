@@ -104,12 +104,17 @@ python post_processing.py \
     --input_path ${OUTPUT_PATH} \
     --output_path ${OUTPUT_PATH}
 
-# ------------- Evaluation -------------
-python mot_metric_evaluation.py \
-    --out_mot_files_path ${OUTPUT_PATH} \
-    --gt_path ${GT_PATH} |& tee ${OUTPUT_PATH}/eval.log
-
 endtime=`date +'%Y-%m-%d %H:%M:%S'`
 start_seconds=$(date --date="$starttime" +%s)
 end_seconds=$(date --date="$endtime" +%s)
 echo "The processing time for LPC_MOT with ${NUM_PROC} number of processors is: "$((end_seconds-start_seconds))"s"
+
+# ------------- Evaluation -------------
+echo "------------- Evaluation -------------"
+echo python mot_metric_evaluation.py \
+    --out_mot_files_path ${OUTPUT_PATH} \
+    --gt_path ${GT_PATH} 
+
+python mot_metric_evaluation.py \
+    --out_mot_files_path ${OUTPUT_PATH} \
+    --gt_path ${GT_PATH} |& tee ${OUTPUT_PATH}/eval.log
