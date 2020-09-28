@@ -88,7 +88,7 @@ class BasicBlock(nn.Module):
 
 class GNN(nn.Module):
     def __init__(self, planes, feature_dim, featureless,
-            num_classes=1, dropout=0.0, reduce_method='max', stage='dev'):
+            num_classes=1, dropout=0.0, reduce_method='max', lossfunc='CELoss'):
         assert feature_dim > 0
         assert dropout >= 0 and dropout < 1
         if featureless:
@@ -99,12 +99,10 @@ class GNN(nn.Module):
         self.reduce_method = reduce_method
         self.feature_dim = feature_dim
         super(GNN, self).__init__()
-        if stage == 'dev':
+        if lossfunc == 'CELoss':
             self.loss = torch.nn.CrossEntropyLoss()
-        elif stage == 'seg':
-            self.loss = torch.nn.NLLLoss()
         else:
-            raise KeyError('Unknown stage: {}'.format(stage))
+            raise KeyError('Unknown lossfunc: {}'.format(lossfunc))
 
     def pool(self, x):
         # use global op to reduce N
@@ -141,10 +139,10 @@ class GNN(nn.Module):
 class GCN(GNN):
 
     def __init__(self, planes, feature_dim, featureless,
-            num_classes=1, freeze_bn=True, dropout=0.0, reduce_method='max', stage='dev'):
+            num_classes=1, freeze_bn=True, dropout=0.0, reduce_method='max', lossfunc='CELoss'):
         super().__init__(
                 planes, feature_dim, featureless,
-                num_classes, dropout, reduce_method, stage)
+                num_classes, dropout, reduce_method, lossfunc)
 
         self.layers = self._make_layer(BasicBlock, planes, freeze_bn, dropout)
         self.classifier = nn.Linear(self.inplanes, num_classes)
