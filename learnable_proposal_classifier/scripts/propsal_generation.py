@@ -152,7 +152,7 @@ def SV_one_video(context):
                 iop_label1 = -1
             proposals_all.append(proposal)
             IoP_all.append(iop_label1)
-            IoU_all.append(float(len(frame_index_all)) / 2500.0)
+            IoU_all.append(float(len(frame_index_all)) / 200.0)
         end = time.time()
         vid_validation = os.path.basename(body_pb_file).split('.')[0]
         if sv_tid_to_gth is not None:
