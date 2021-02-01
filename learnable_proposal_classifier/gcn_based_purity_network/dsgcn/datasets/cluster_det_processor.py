@@ -34,12 +34,6 @@ class ClusterDetProcessor_pipeline(object):
         return self.dataset.size
    
     def build_graph(self, fn_node):
-        """ build graph from graph file
-            - nodes: NxD,
-                     each row represents the feature of a node
-            - adj:   NxN,
-                     a symmetric similarity matrix with self-connection
-        """
         node_name = fn_node.split('/')[-1].split('_')[0]
         features = self.dataset.features
         spatem = self.dataset.spatem
@@ -67,10 +61,8 @@ class ClusterDetProcessor_pipeline(object):
                 fea1, fea2 = features_node[ii, :], features_node[jj, :]
                 spatem1, spatem2 = spatem_node[ii, :], spatem_node[jj, :]
                 if jj == ii:
-                    #dist = 2.0
                     dist = 1.0
                 else:
-                    #dist = 1.0 + np.dot(fea1,fea2)/(np.linalg.norm(fea1)*(np.linalg.norm(fea1)))
                     reid_simi = np.dot(fea1,fea2)/(np.linalg.norm(fea1)*(np.linalg.norm(fea1)))
                     temporal_dist = np.exp(-1*(float(abs(spatem2[0] - spatem1[1])/100)))
                     spatial_dist = np.exp(-1*np.linalg.norm(np.array(spatem2[2:4]) - np.array(spatem1[4:6])) / 200.0) 
@@ -101,7 +93,6 @@ class ClusterDetProcessor_pipeline(object):
         if True:
             vertices1, vertices2 = [], []
             app_start = features_node[0,:].tolist() + [1, 0, 0, 0, 0]
-            #vertices1.append(features_node[0,:].tolist()+[0, 0, 0, 1, 1])
             vertices1.append(features_node[0,:].tolist())
             vertices2.append([0, 0, 0, 1, 1])
             for ii in range(1, len(node)):
@@ -114,27 +105,14 @@ class ClusterDetProcessor_pipeline(object):
                 v_diff = float(spatem_feature[3] - spatem_old[5])/((spatem_feature[7] + spatem_old[9])/2.0)
                 w_diff = np.log(float(spatem_feature[6]) / spatem_old[8])
                 h_diff = np.log(float(spatem_feature[7]) / spatem_old[9])
-                #time_diff = float(spatem_feature[0] - spatem_old[1])/300
-                #u_diff = float(spatem_feature[2] - spatem_old[4])/1920
-                #v_diff = float(spatem_feature[3] - spatem_old[5])/1080
-                #w_diff = min(float(spatem_feature[6])/float(spatem_old[8]), float(spatem_old[8])/float(spatem_feature[6]))
-                #h_diff = min(float(spatem_feature[7])/float(spatem_old[9]), float(spatem_old[9])/float(spatem_feature[7]))
-                #vertices1.append(app_feature+[time_diff, u_diff, v_diff, w_diff, h_diff])
                 vertices1.append(app_feature)
                 vertices2.append([time_diff, u_diff, v_diff, w_diff, h_diff])
             vertices1 = l2norm(np.array(vertices1))
             vertices2 = l2norm(np.array(vertices2))
-            #vertices1 = np.array(vertices1)
-            #vertices2 = np.array(vertices2)
             
         return vertices1, vertices2, adj, float(label_output), float(1.0) 
 
     def __getitem__(self, idx):
-        """ each vertices is a NxD matrix,
-            each adj is a NxN matrix,
-            each label is a Nx1 matrix,
-            which is a 0 or 1 representing the foreground and background
-        """
         if idx is None or idx > self.dataset.size:
             raise ValueError('idx({}) is not in the range of {}'.format(idx, self.dataset.size))
         fn_node = self.dataset.lst[idx]
