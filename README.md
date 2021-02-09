@@ -33,4 +33,4 @@ bash main.sh ../../dataset/MOT17/results_reid_with_traindata/detection/ ../../mo
 ```
 
 ## GCN Model Training
-The scripts for GCN model training will be here soon.
+The scripts for GCN model training are in [LPC_TRAIN](https://github.com/daip13/LPC_TRAIN.git).
