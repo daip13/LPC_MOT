@@ -63,7 +63,7 @@ class ClusterDetProcessor_pipeline(object):
                 if jj == ii:
                     dist = 1.0
                 else:
-                    reid_simi = np.dot(fea1,fea2)/(np.linalg.norm(fea1)*(np.linalg.norm(fea1)))
+                    reid_simi = (1.0 + np.dot(fea1,fea2)/(np.linalg.norm(fea1)*(np.linalg.norm(fea1)))) / 2.0
                     temporal_dist = np.exp(-1*(float(abs(spatem2[0] - spatem1[1])/100)))
                     spatial_dist = np.exp(-1*np.linalg.norm(np.array(spatem2[2:4]) - np.array(spatem1[4:6])) / 200.0) 
                     dist = (temporal_dist + spatial_dist + reid_simi)/3.0
