@@ -92,9 +92,8 @@ class ClusterDetProcessor_pipeline(object):
         # add the temporal spatial information into the feature vectors
         if True:
             vertices1, vertices2 = [], []
-            app_start = features_node[0,:].tolist() + [1, 0, 0, 0, 0]
             vertices1.append(features_node[0,:].tolist())
-            vertices2.append([0, 0, 0, 1, 1])
+            vertices2.append([1, 0, 0, 0, 0])
             for ii in range(1, len(node)):
                 spatem_old = spatem_node[ii-1,:].tolist()
                 app_feature = features_node[ii,:].tolist()
@@ -108,7 +107,7 @@ class ClusterDetProcessor_pipeline(object):
                 vertices1.append(app_feature)
                 vertices2.append([time_diff, u_diff, v_diff, w_diff, h_diff])
             vertices1 = l2norm(np.array(vertices1))
-            vertices2 = l2norm(np.array(vertices2))
+            vertices2 = np.array(vertices2)
             
         return vertices1, vertices2, adj, float(label_output), float(1.0) 
 

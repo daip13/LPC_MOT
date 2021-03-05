@@ -122,9 +122,9 @@ class GNN(nn.Module):
         purity_label = data[-1].cpu()
         reid_feature = data[0].cpu()
         spatem_feature = data[1].cpu()
-        #feature_input = torch.cat([reid_feature, spatem_feature], 2)
+        feature_input = torch.cat([reid_feature, spatem_feature], 2)
         #feature_input = spatem_feature
-        feature_input = reid_feature
+        #feature_input = reid_feature
         x, feature = self.extract(feature_input.cuda(),  data[2].cuda(), data[2].cuda())
         y = self.softmax(x)
         y1 = y[:, 1]

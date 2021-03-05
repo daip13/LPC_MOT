@@ -35,7 +35,7 @@
         ], 
         "type": "SumAffinities"
       }, 
-      "sim_threshold": 0.01,
+      "sim_threshold": 0.2,
       "threshold": 1.8, 
       "type": "NoneCompeteDirectedAffinity"
     }

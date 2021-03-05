@@ -30,7 +30,7 @@ def main():
     parser.add_argument('--prefix', type=str, help='prefix of input pb files', default='')
     parser.add_argument('--num_proc', type=int, help='number of processors', default=8)
     parser.add_argument('--deoverlapping_threshold', type=float, help='the threshold for deoverlapping', default =0.50)
-    parser.add_argument('--weight_param', type=float, help='the weighting parameter for purity score', default =100)
+    parser.add_argument('--weight_param', type=float, help='the weighting parameter for purity score', default =1)
     args = parser.parse_args()
     body_pb_files = glob.glob(args.input_path + '/' + args.prefix + '*.pb')
     if len(body_pb_files) > 0:
