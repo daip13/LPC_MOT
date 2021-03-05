@@ -29,5 +29,5 @@ git clone https://github.com/daip13/LPC_MOT.git
 7. Running.
 ```
 cd /root/LPC_MOT/learnable_proposal_classifier/scripts/
-bash main.sh ../../dataset/MOT17/results_reid_with_traindata/detection/ ../../models/dsgcn_model_iter_30.pth /tmp/LPC_MHT/ ../../dataset/MOT17/results_reid_with_traindata/tracking_output/ ../../dataset/MOT17/train/
+bash main.sh ../../dataset/MOT17/results_reid_with_traindata/detection/ ../../models/dsgcn_model_iter_100.pth /tmp/LPC_MHT/ ../../dataset/MOT17/results_reid_with_traindata/tracking_output/ ../../dataset/MOT17/train/
 ```
