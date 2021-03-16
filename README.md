@@ -12,7 +12,7 @@ in *IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, 2021.
 ## BibTex
 
 ```
-@inproceedings{meng2021magface,
+@inproceedings{dai2021LPC,
   title={Learning a Proposal Classifier for Multiple Object tracking},
   author={Dai, Peng and Weng, Renliang and Choi, Wongun and Zhang, Changshui and He, Zhangping and Ding, Wei}
   booktitle=IEEE Conference on Computer Vision and Pattern Recognition (CVPR),
