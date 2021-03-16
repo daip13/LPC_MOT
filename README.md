@@ -1,5 +1,6 @@
 # LPC_MOT
 This is the code for the paper "Learning a Proposal Classifier for Multiple Object tracking"
+
 in *IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, 2021.
 
 ![image](https://github.com/daip13/LPC_MOT/blob/master/images/framework.png)
