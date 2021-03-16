@@ -4,9 +4,19 @@ in *IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, 2021.
 
 ![image](https://github.com/daip13/LPC_MOT/blob/master/images/framework.png)
 
-**Paper**:
+**Paper**: [arXiv](https://arxiv.org/abs/2103.07889)
 
-## Setup
+## BibTex
+
+```
+@inproceedings{meng2021magface,
+  title={Learning a Proposal Classifier for Multiple Object tracking},
+  author={Dai, Peng and Weng, Renliang and Choi, Wongun and Zhang, Changshui and He, Zhangping and Ding, Wei}
+  booktitle=IEEE Conference on Computer Vision and Pattern Recognition (CVPR),
+  year=2021
+```
+
+## Usage - On MOT17
 1. Clone the enter this repository:
 ```
 git clone https://github.com/daip13/LPC_MOT.git
