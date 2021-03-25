@@ -42,6 +42,7 @@ class ClusterDetProcessor_pipeline(object):
         node_old = load_data(fn_node)
         video_name = [trk_vid_name[trk] for trk in node_old]
         assert len(set(video_name)) == 1
+        # notice: we set the label to be 1.0 in inference. Actually, it can be arbitrary value because we donot use this label in inference.
         label_output = 1.0
         node = list(node_old) 
         features_node = features[node, :]
@@ -108,16 +109,14 @@ class ClusterDetProcessor_pipeline(object):
                 vertices2.append([time_diff, u_diff, v_diff, w_diff, h_diff])
             vertices1 = l2norm(np.array(vertices1))
             vertices2 = np.array(vertices2)
-            
-        return vertices1, vertices2, adj, float(label_output), float(1.0) 
+        return vertices1, vertices2, adj, float(label_output) 
 
     def __getitem__(self, idx):
         if idx is None or idx > self.dataset.size:
             raise ValueError('idx({}) is not in the range of {}'.format(idx, self.dataset.size))
         fn_node = self.dataset.lst[idx]
-        vertices1, vertices2, adj, binary_label, iop = self.build_graph(fn_node)
+        vertices1, vertices2, adj, binary_label = self.build_graph(fn_node)
         return vertices1.astype(self.dtype), \
                vertices2.astype(self.dtype), \
                adj.astype(self.dtype), \
-               np.array(binary_label, dtype=self.dtype), \
-               np.array(iop, dtype=self.dtype)
+               np.array(binary_label, dtype=self.dtype)

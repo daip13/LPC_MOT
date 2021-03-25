@@ -13,12 +13,11 @@ from sampler import DistributedSampler, DistributedSequentialSampler
 def collate_graphs(batch):
     bs = len(batch)
     if bs > 1:
-        feat, spatem, adj, lb, iop = zip(*batch)
+        feat, spatem, adj, lb = zip(*batch)
         sizes = [f.shape[0] for f in feat]
         max_size = max(sizes)
         dim = feat[0].shape[1]
         lb = torch.from_numpy(np.array(lb))
-        iop = torch.from_numpy(np.array(iop))
         index = []
         for i, size in enumerate(sizes):
             index1 = [i*max_size+idx for idx in range(size)]
@@ -52,17 +51,10 @@ def collate_graphs(batch):
         pad_feat = default_collate(pad_feat)
         pad_spatem = default_collate(pad_spatem)
         pad_adj = default_collate(pad_adj)
-        return pad_feat, pad_spatem, pad_adj, iop, lb
+        return pad_feat, pad_spatem, pad_adj, lb
     else:
-        feat, adj, lb = zip(*batch)
-        pad_feat = default_collate(feat)
-        pad_adj = default_collate(adj)
-        lb = torch.from_numpy(np.array(lb))
-        iop = torch.from_numpy(np.array(iop))
-        index = torch.from_numpy(np.array([1]))
-        return pad_feat, pad_adj, iop, lb
-
-
+        raise NotImplementedError
+        
 def build_dataloader(dataset,
                      processor,
                      batch_size_per_gpu,
